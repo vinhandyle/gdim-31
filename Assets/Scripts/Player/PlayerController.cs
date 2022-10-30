@@ -17,12 +17,12 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpHeight;
-    [SerializeField] private float jumpReduction;
     [SerializeField] private float fallMultiplier;
 
     [Header("Ground & Wall Detection")]
     [SerializeField] private LayerMask isTerrain;
-    [SerializeField] private float detectionRadius;
+    [SerializeField] private float groundRadius;
+    [SerializeField] private float wallRadius;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private List<Transform> wallChecks;
@@ -47,8 +47,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        onGround = Physics2D.OverlapCircle(groundCheck.position, detectionRadius, isTerrain);
-        onWall = wallChecks.Any(wallCheck => Physics2D.OverlapCircle(wallCheck.position, detectionRadius, isTerrain));
+        onGround = Physics2D.OverlapCircle(groundCheck.position, groundRadius, isTerrain);
+        onWall = wallChecks.Any(wallCheck => Physics2D.OverlapCircle(wallCheck.position, wallRadius, isTerrain));
 
         // Fast fall
         if (rb.velocity.y < 0)
@@ -90,9 +90,8 @@ public class PlayerController : MonoBehaviour
         // Stop jump short if button is released before apex
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            float jumpSpeed = jumpHeight / jumpReduction;
-            if (jumpSpeed < rb.velocity.y)
-                rb.velocity = new Vector2(rb.velocity.x, jumpHeight / jumpReduction);
+            if (rb.velocity.y > 0)
+                rb.velocity = new Vector2(rb.velocity.x, 0);
         }
     }
 
@@ -103,5 +102,5 @@ public class PlayerController : MonoBehaviour
         oppDirection.x *= -1;
         transform.localScale = oppDirection;
         direction = -direction;
-    }
+    }   
 }
