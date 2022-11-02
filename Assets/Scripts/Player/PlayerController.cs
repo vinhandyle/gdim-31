@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D cldr;
     private SpriteRenderer sprite;
+    private HealthManager health;
     [SerializeField] private int direction;
 
     [Header("Movement")]
@@ -29,26 +30,50 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool onGround;
     [SerializeField] private bool onWall;
 
+    [Header("Combat")]
+    [SerializeField] private BurstAttack attack;
+    [SerializeField] private float attackCost;
+    [SerializeField] private float boostSpeed;
+
+    [SerializeField] [Tooltip("Prevent horizontal movement during boost.")] 
+    private bool noMoveDuringBoost;
+
+    [SerializeField] [Tooltip("Restricts boost to straight upwards propulsion.")]
+    private bool upBoostOnly;
+
+    [SerializeField] [Tooltip("Can only boost once while midair. Refreshes on ground.")]
+    private bool oneTimeUseMidair;
+    private bool canUseMidair;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         cldr = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
+        health = GetComponent<HealthManager>();
 
         direction = (int)transform.right.x;
     }
 
     private void Update()
     {
-        Move();
-        Jump();
+        if (!attack.inProgress)
+        {
+            Move();
+            Jump();
+            Attack();
+        }
+        else if (attack.inProgress && !noMoveDuringBoost)
+        {
+            Move();
+        }
     }
 
     private void FixedUpdate()
     {
         onGround = Physics2D.OverlapCircle(groundCheck.position, groundRadius, isTerrain);
         onWall = wallChecks.Any(wallCheck => Physics2D.OverlapCircle(wallCheck.position, wallRadius, isTerrain));
+        canUseMidair = onGround || canUseMidair;
 
         // Fast fall
         if (rb.velocity.y < 0)
@@ -76,7 +101,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             if (direction == -dir) FlipX();
-            rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);        
+            rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);
         }
     }
 
@@ -92,6 +117,30 @@ public class PlayerController : MonoBehaviour
         {
             if (rb.velocity.y > 0)
                 rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
+    }
+
+    private void Attack()
+    {
+        // Pick between infinite boosting or ground-recharging boosts
+        if (Input.GetKeyDown(KeyCode.S) && (canUseMidair || !oneTimeUseMidair))
+        {
+            health.ExpendFuel(attackCost);
+            attack.Activate();
+            canUseMidair = false;
+
+            // Pick between vertical or omnidirectional boost
+            if (upBoostOnly)
+            {
+                rb.velocity = Vector2.zero;
+                rb.AddForce(Vector2.up * boostSpeed);
+            }
+            else
+            {
+                Vector2 thrust = rb.velocity.normalized;
+                rb.velocity = Vector2.zero;
+                rb.AddForce(thrust * boostSpeed);
+            }
         }
     }
 

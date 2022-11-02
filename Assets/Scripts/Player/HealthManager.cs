@@ -38,6 +38,18 @@ public class HealthManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reduce the amount of time left.
+    /// </summary>
+    public void ExpendFuel(float amt)
+    {
+        timeLeft -= amt;
+    }
+
+    /// <summary>
+    /// Deal damage to the candle stick.
+    /// If total damage exceeds time left, the player dies.
+    /// </summary>
     public void TakeDamage(int amt)
     {
         dmgTaken += amt;
