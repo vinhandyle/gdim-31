@@ -12,13 +12,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private BoxCollider2D cldr;
     private SpriteRenderer sprite;
-    private HealthManager health;
-    [SerializeField] private int direction;
+    private HealthManager health;    
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpHeight;
     [SerializeField] private float fallMultiplier;
+    private int direction;
 
     [Header("Ground & Wall Detection")]
     [SerializeField] private LayerMask isTerrain;
@@ -27,8 +27,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private List<Transform> wallChecks;
-    [SerializeField] private bool onGround;
-    [SerializeField] private bool onWall;
+    private bool onGround;
+    private bool onWall;
 
     [Header("Combat")]
     [SerializeField] private BurstAttack attack;

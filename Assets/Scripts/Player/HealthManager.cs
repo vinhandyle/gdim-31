@@ -10,6 +10,7 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private List<Checkpoint> checkpoints = new List<Checkpoint>();
 
+    [SerializeField] private bool disableHealthDrain;
     [SerializeField] private float maxTime;
     [SerializeField] private float decaySpeed;
     [SerializeField] [Range(1, 100)] private int healthSegments = 1;
@@ -29,7 +30,8 @@ public class HealthManager : MonoBehaviour
     {
         if (timeLeft > 0)
         {
-            timeLeft -= Time.deltaTime * decaySpeed;
+            if (!disableHealthDrain)
+                timeLeft -= Time.deltaTime * decaySpeed;
             healthBar.SetHealth(timeLeft);
         }
         else
@@ -41,8 +43,10 @@ public class HealthManager : MonoBehaviour
     /// <summary>
     /// Reduce the amount of time left.
     /// </summary>
-    public void ExpendFuel(float amt)
+    public void ExpendFuel(float amt = -1)
     {
+        if (amt < 0)
+            timeLeft = 0;
         timeLeft -= amt;
     }
 
