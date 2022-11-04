@@ -57,6 +57,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        // Hot key for pause menu
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameStateManager.Instance.TogglePause();
+        }
+
+        // Player control
         if (!attack.inProgress)
         {
             Move();

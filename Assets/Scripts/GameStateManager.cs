@@ -44,6 +44,19 @@ public class GameStateManager : Singleton<GameStateManager>
     /// </summary>
     public void TogglePause()
     {
-        UpdateState(_currentState == GameState.RUNNING ? GameState.PAUSED : GameState.RUNNING);
+        if (_currentState == GameState.PAUSED)
+        {           
+            SceneController.Instance.UnloadScene("Pause");      
+
+            if (SceneController.Instance.currentScene == "Menu")
+                UpdateState(GameState.PREGAME);
+            else
+                UpdateState(GameState.RUNNING);
+        }
+        else
+        {
+            UpdateState(GameState.PAUSED);
+            SceneController.Instance.LoadScene("Pause", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        }
     }
 }
