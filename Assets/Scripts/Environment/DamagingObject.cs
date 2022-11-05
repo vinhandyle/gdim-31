@@ -8,7 +8,9 @@ using UnityEngine;
 public class DamagingObject : MonoBehaviour
 {
     [SerializeField] private int damage;
+    [SerializeField] private bool instantKill;
     [SerializeField] private bool destroyOnHit;
+    [SerializeField] private bool destroyOnBurst;
     [SerializeField] private bool canKnockback;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -26,15 +28,27 @@ public class DamagingObject : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             HealthManager health = other.GetComponent<HealthManager>();
-            health.TakeDamage(damage);
 
-            if (canKnockback)
+            if (instantKill)
             {
-                // TODO
+                // Change to have custom death animation
+                health.Respawn();
+            }
+            else
+            {
+                health.TakeDamage(damage);
+
+                if (canKnockback)
+                {
+                    // TODO
+                }
             }
         }
 
-        if (destroyOnHit)
+        bool hitByBurst = other.GetComponent<BurstAttack>();
+        if ((!hitByBurst && destroyOnHit) || (hitByBurst && destroyOnBurst))
+        {
             Destroy(gameObject);
+        }
     }
 }

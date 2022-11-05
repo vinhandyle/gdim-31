@@ -77,8 +77,9 @@ public class HealthManager : MonoBehaviour
     /// </summary>
     public void Respawn()
     {
-        Vector3 target = checkpoints[checkpoints.Count - 1].transform.position;
-        transform.position = new Vector3(target.x, target.y, transform.position.z);
+        Checkpoint target = checkpoints[checkpoints.Count - 1];
+        Vector3 dest = target.transform.position + (Vector3)target.GetComponent<BoxCollider2D>().offset;
+        transform.position = new Vector3(dest.x, dest.y, transform.position.z);
 
         timeLeft = maxTime;
         healthBar.SetHealth(maxTime);
