@@ -200,7 +200,9 @@ MonoBehaviour:
   mixer: {fileID: 24100000, guid: 042aaef87e996214ca16f89b9cfb2699, type: 2}
   musicSource: {fileID: 478819694}
   sfxSource: {fileID: 478819693}
-  playlist: []
+  playlist:
+  - {fileID: 8300000, guid: ed03018547f4ace4a9cc57038e1cb92e, type: 3}
+  - {fileID: 8300000, guid: 3b977c3f830c86d45b8c1b6dd25c28c7, type: 3}
   sfxList: []
 --- !u!82 &478819693
 AudioSource:

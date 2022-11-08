@@ -46,6 +46,11 @@ public class SceneController : Singleton<SceneController>
         switch (scene)
         {
             case menuScene:
+                AudioController.Instance.PlayTrack(0);
+                break;
+
+            case "Level 1":
+                AudioController.Instance.PlayTrack(1);
                 break;
         }
     }
