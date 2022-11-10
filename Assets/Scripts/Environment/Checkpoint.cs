@@ -7,12 +7,16 @@ using UnityEngine;
 /// </summary>
 public class Checkpoint : InteractableObject
 {
-    public bool active { get; private set; }
+    private Animator anim;
+
+    public bool active { get => anim.GetBool("Enabled"); }
     [SerializeField] private bool preset;
 
     protected override void Awake()
     {
         base.Awake();
+
+        anim = GetComponent<Animator>();
 
         // Add preset checkpoints
         OnEnterRange += (player) =>
@@ -21,7 +25,7 @@ public class Checkpoint : InteractableObject
             {
                 HealthManager playerHealth = player.GetComponent<HealthManager>();
 
-                active = true;
+                anim.SetBool("Enabled", true);
                 playerHealth.AddCheckpoint(this);
             }
         };
@@ -31,14 +35,13 @@ public class Checkpoint : InteractableObject
         OnInteract += (player) => 
         {
             HealthManager playerHealth = player.GetComponent<HealthManager>();
-
-            active = true;
-            playerHealth.AddCheckpoint(this);
-
+           
             if (active)
             {
                 playerHealth.Respawn();
             }
+            playerHealth.AddCheckpoint(this);
+            anim.SetBool("Enabled", true);
         };
     }
 }

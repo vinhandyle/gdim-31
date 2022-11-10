@@ -20,7 +20,7 @@ public class AudioController : Singleton<AudioController>
     /// </summary>
     public void ChangeVolume(string channel, float volume)
     {
-        mixer.SetFloat(channel, Mathf.Log10(volume) * 20);
+        mixer.SetFloat(channel, Mathf.Log10(volume + 0.0001f) * 20);
     }
 
     /// <summary>
