@@ -6,14 +6,13 @@ using UnityEngine;
 /// An object that can be destroyed by the player's burst attack.
 /// </summary>
 public class BreakableObject : MonoBehaviour
-{    
-    private Animator anim;
-    private Collider2D cldr;
+{
+    [SerializeField] protected Collider2D hitbox;
+    protected Animator anim;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         anim = GetComponent<Animator>();
-        cldr = GetComponent<Collider2D>();
     }
 
     /// <summary>
@@ -21,8 +20,9 @@ public class BreakableObject : MonoBehaviour
     /// </summary>
     public void Break()
     {
-        cldr.enabled = false;
+        hitbox.enabled = false;
         anim.SetBool("", true);
+        BreakFinish(); // Use if break animation is unfinished
     }
 
     /// <summary>

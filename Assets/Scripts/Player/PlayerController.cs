@@ -157,6 +157,6 @@ public class PlayerController : MonoBehaviour
         Vector3 oppDirection = transform.localScale;
         oppDirection.x *= -1;
         transform.localScale = oppDirection;
-        direction = -direction;
+        direction *= -1;
     }   
 }
