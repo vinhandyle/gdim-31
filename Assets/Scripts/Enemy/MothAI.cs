@@ -15,6 +15,11 @@ public class MothAI : BreakableObject
     [SerializeField] private Sprite spriteToScaleTo;
     [SerializeField] private List<Collider2D> bounds;
 
+    [SerializeField] private GameObject toxicGas;
+    [SerializeField] private float maxToxicGas;
+    private LinkedList<GameObject> toxicGasList = new LinkedList<GameObject>();
+    private bool usingGas;
+
     protected Rigidbody2D rb;
     protected SpriteRenderer sprite;
 
@@ -34,6 +39,11 @@ public class MothAI : BreakableObject
         {
             // Stop and spawn toxic gas
             rb.velocity = Vector2.zero;
+
+            if (!usingGas && toxicGasList.Count == 0)
+            {
+                StartCoroutine(ReleaseToxicGas());
+            }
         }
         else
         {
@@ -55,6 +65,38 @@ public class MothAI : BreakableObject
         {
             FlipX();
         }
+    }
+
+    /// <summary>
+    /// Instantiate the toxic gas object on the moth.
+    /// </summary>
+    private IEnumerator ReleaseToxicGas()
+    {
+        usingGas = true;
+
+        // Wait until moth switchs animation state to prevent miscentering
+        while (anim.GetCurrentAnimatorStateInfo(0).IsName("Passive"))
+        {
+            yield return null;
+        }
+
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Hostile"))
+        {
+            // Use to prevent infinite spawns
+            if (toxicGasList.Count == maxToxicGas)
+            {
+                Destroy(toxicGasList.First());
+            }
+
+            // Set as child of the moth container to prevent moving with the moth.
+            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y, transform.position.z - 2);
+            GameObject tg = Instantiate(toxicGas, spawnPos, transform.rotation);
+            tg.transform.parent = transform.parent;
+            tg.GetComponent<ToxicGas>().OnDestroyEvent += () => { toxicGasList.Remove(tg); };
+            toxicGasList.AddLast(tg);
+
+            usingGas = false;
+        }       
     }
 
     #endregion
@@ -98,6 +140,7 @@ public class MothAI : BreakableObject
         if (collision.CompareTag("Player"))
         {
             anim.SetBool("Player In Range", true);
+            StartCoroutine(ReleaseToxicGas());
         }
         
         // Turn around if attempting to leave boundary
@@ -112,7 +155,7 @@ public class MothAI : BreakableObject
     {
         if (collision.CompareTag("Player"))
         {
-            FacePlayer(collision.transform);
+            FacePlayer(collision.transform);            
         }
     }
 

@@ -7,20 +7,27 @@ using UnityEngine;
 /// </summary>
 public class DamagingObject : MonoBehaviour
 {
+    private bool isTrigger;
+
     [SerializeField] private int damage;
     [SerializeField] private bool instantKill;
     [SerializeField] private bool destroyOnHit;
     [SerializeField] private bool destroyOnBurst;
     [SerializeField] private bool canKnockback;
 
+    private void Awake()
+    {
+        isTrigger = GetComponent<Collider2D>().isTrigger;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        OnContact(collision.gameObject);
+        if (isTrigger) OnContact(collision.gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        OnContact(collision.gameObject);
+        if (!isTrigger) OnContact(collision.gameObject);
     }
 
     private void OnContact(GameObject other)

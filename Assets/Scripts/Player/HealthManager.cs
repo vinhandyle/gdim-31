@@ -13,6 +13,7 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private bool disableHealthDrain;
     [SerializeField] private float maxTime;
     [SerializeField] private float decaySpeed;
+    private float baseDecaySpeed;
     [SerializeField] [Range(1, 100)] private int healthSegments = 1;
 
     private float timeLeft;
@@ -23,6 +24,7 @@ public class HealthManager : MonoBehaviour
     {
         timeLeft = maxTime;
         timePerHealth = maxTime / healthSegments;
+        baseDecaySpeed = decaySpeed;
         healthBar.SetDefaults(maxTime, healthSegments);
     }
 
@@ -38,6 +40,14 @@ public class HealthManager : MonoBehaviour
         {
             Respawn();
         }
+    }
+
+    /// <summary>
+    /// Set the health decay speed multiplier.
+    /// </summary>
+    public void ChangeDecaySpeed(float mult)
+    {
+        decaySpeed = baseDecaySpeed * mult;
     }
 
     /// <summary>
