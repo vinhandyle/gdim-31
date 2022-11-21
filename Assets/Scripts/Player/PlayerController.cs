@@ -116,16 +116,6 @@ public class PlayerController : MonoBehaviour
 
             if (cldr != null)
             {
-                List<Collider2D> contacts = new List<Collider2D>();
-                cldr.GetContacts(contacts);
-
-                if (contacts.Count > 0)
-                {
-                    string s = "";
-                    for (int i = 0; i < contacts.Count; ++i)
-                        s += transform.position - contacts[0].transform.position + ", ";
-                }
-
                 // Check steepness of collider relative to player
                 if (AdjustAngle(cldr.transform.eulerAngles.z) > 0)
                     return true;
