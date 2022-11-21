@@ -19,11 +19,15 @@ public class HealthManager : MonoBehaviour
     private float timePerHealth;
     private int dmgTaken;
 
+
+    private Animator anim;
+
     private void Awake()
     {
         timeLeft = maxTime;
         timePerHealth = maxTime / healthSegments;
         healthBar.SetDefaults(maxTime, healthSegments);
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -47,6 +51,7 @@ public class HealthManager : MonoBehaviour
     {
         if (amt < 0)
             timeLeft = 0;
+            
         timeLeft -= amt;
     }
 
@@ -60,6 +65,7 @@ public class HealthManager : MonoBehaviour
         healthBar.SetDamagedHealth(dmgTaken);
         if (dmgTaken * timePerHealth >= timeLeft)
             timeLeft = 0;
+            
     }
 
     /// <summary>
@@ -85,4 +91,5 @@ public class HealthManager : MonoBehaviour
         healthBar.SetHealth(maxTime);
         healthBar.ResetDamagedHealth();
     }
+
 }

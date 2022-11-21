@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2216b5690f7fe4c4387b4290c6eabffa
+guid: d33bbcbba400f7740862594032e246ac
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -117,13 +117,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Candle grow 2 (1)_0
+      name: Candle death_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 146
-        width: 24
-        height: 26
+        x: 25
+        y: 84
+        width: 17
+        height: 36
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,113 +131,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1e36d59c22a6224da4758804a6e84a6
-      internalID: 733661334
+      spriteID: 3999918dbfd59fb4eb418f68c6cc9120
+      internalID: -642477098
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Candle grow 2 (1)_1
+      name: Candle death_1
       rect:
         serializedVersion: 2
-        x: 21
+        x: 89
+        y: 83
+        width: 17
+        height: 37
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bca4173a6d83f1b47986403e9d1576a5
+      internalID: -155510541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Candle death_2
+      rect:
+        serializedVersion: 2
+        x: 152
         y: 82
-        width: 24
+        width: 20
+        height: 38
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2f12533c0a790a4f96081b72d55f4a2
+      internalID: -829687842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Candle death_3
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 18
+        width: 22
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57e315f2848064e478e6c0c2c930eec0
+      internalID: 1238255846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Candle death_4
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 18
+        width: 23
         height: 30
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c3b19934820d6b4fab42c1782728f1e
-      internalID: -264817349
+      spriteID: 1ec0a789716a97a4d9f815f408f25489
+      internalID: 200046947
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Candle grow 2 (1)_2
+      name: Candle death_5
       rect:
         serializedVersion: 2
-        x: 85
-        y: 82
-        width: 24
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6a84b6d639f7ebe4287a7648e499121f
-      internalID: 1698970065
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Candle grow 2 (1)_3
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 19
-        width: 24
+        x: 151
+        y: 18
+        width: 23
         height: 30
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 631bb7c2ad9a99e40addab38e38e72c7
-      internalID: -283281382
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Candle grow 2 (1)_4
-      rect:
-        serializedVersion: 2
-        x: 85
-        y: 20
-        width: 24
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 39d19780eed05a34885d8bb5fc5f4769
-      internalID: 83943590
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Candle grow 2 (1)_6
-      rect:
-        serializedVersion: 2
-        x: 86
-        y: 146
-        width: 24
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e38742d19d01da04e8aaf9771c8e1473
-      internalID: -587545192
+      spriteID: aa438aae3fdb57043a3faca5bdbbca3b
+      internalID: 1778979837
       vertices: []
       indices: 
       edges: []
@@ -253,13 +253,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Candle grow 2 (1)_4: 83943590
-      Candle grow 2 (1)_5: -989092565
-      Candle grow 2 (1)_0: 733661334
-      Candle grow 2 (1)_6: -587545192
-      Candle grow 2 (1)_1: -264817349
-      Candle grow 2 (1)_2: 1698970065
-      Candle grow 2 (1)_3: -283281382
+      Candle death_5: 1778979837
+      Candle death_0: -642477098
+      Candle death_6: 195662990
+      Candle death_3: 1238255846
+      Candle death_4: 200046947
+      Candle death_1: -155510541
+      Candle death_2: -829687842
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

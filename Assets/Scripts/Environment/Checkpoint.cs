@@ -26,6 +26,7 @@ public class Checkpoint : InteractableObject
                 HealthManager playerHealth = player.GetComponent<HealthManager>();
 
                 anim.SetBool("Enabled", true);
+                anim.SetBool("OnCheckpoint", true);
                 playerHealth.AddCheckpoint(this);
             }
         };
@@ -42,6 +43,7 @@ public class Checkpoint : InteractableObject
             }
             playerHealth.AddCheckpoint(this);
             anim.SetBool("Enabled", true);
+            
         };
     }
 }

@@ -13,6 +13,8 @@ public class DamagingObject : MonoBehaviour
     [SerializeField] private bool destroyOnBurst;
     [SerializeField] private bool canKnockback;
 
+    private Animator anim;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         OnContact(collision.gameObject);
@@ -32,7 +34,9 @@ public class DamagingObject : MonoBehaviour
             if (instantKill)
             {
                 // Change to have custom death animation
-                health.Respawn();
+                anim.SetBool("Death", true);
+                //health.Respawn();
+                
             }
             else
             {
