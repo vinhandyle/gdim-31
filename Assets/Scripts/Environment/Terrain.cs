@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/// <summary>
+/// Rectangles that the player can traverse over.
+/// </summary>
+public class Terrain : MonoBehaviour
+{
+    private BoxCollider2D box;
+    private List<BoxCollider2D> cldrs = new List<BoxCollider2D>();
+
+    private void Awake()
+    {
+        box = GetComponent<BoxCollider2D>();
+        SplitCollider();
+    }
+
+    /// <summary>
+    /// Split the box collider into 4 thin box colliders (1 for each side).
+    /// </summary>
+    private void SplitCollider()
+    {
+        for (int i = 0; i < 4; ++i)
+        {
+            GameObject child = new GameObject();
+            child.transform.parent = transform;
+            child.layer = gameObject.layer;
+            cldrs.Add(child.AddComponent<BoxCollider2D>());
+        }
+
+        PositionSplitCollider(cldrs[0], 0);     // top
+        PositionSplitCollider(cldrs[1], 180);   // bottom
+        PositionSplitCollider(cldrs[2], 90);    // left
+        PositionSplitCollider(cldrs[3], -90);   // right
+
+        box.enabled = false;
+    }
+
+    /// <summary>
+    /// Position the side collider to be consistent with the original collider.
+    /// </summary>
+    private void PositionSplitCollider(BoxCollider2D cldr, float angle)
+    {
+        // Set size to match corresponding side of the original
+        float len = (angle % 180 == 0) ? box.size.x : box.size.y;
+
+        cldr.size = new Vector2(
+            len / Mathf.Abs(cldr.transform.localScale.x), 
+            0.003f / Mathf.Abs(cldr.transform.localScale.y)
+            );
+
+        // Rotate to align with original
+        cldr.transform.localEulerAngles = new Vector3(0, 0, angle);
+
+        // Set position to align with original
+        float lineThickness = cldr.size.y * cldr.transform.localScale.y;
+        float degToRad = (angle + 90) * Mathf.PI / 180;
+
+        float offsetX = (box.size.x - lineThickness) / 2 * Mathf.Cos(degToRad);
+        float offsetY = (box.size.y - lineThickness) / 2 * Mathf.Sin(degToRad);
+
+        cldr.transform.localPosition = new Vector3(
+            box.offset.x + offsetX,
+            box.offset.y + offsetY
+            );
+    }
+}

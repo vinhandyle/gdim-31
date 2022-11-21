@@ -78,14 +78,78 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        onGround = Physics2D.OverlapCircle(groundCheck.position, groundRadius, isTerrain);
-        onWall = wallChecks.Any(wallCheck => Physics2D.OverlapCircle(wallCheck.position, wallRadius, isTerrain));
+        onGround = CheckPlayerOnGround();
+        onWall = CheckPlayerOnWall();
         canUseMidair = onGround || canUseMidair;
 
         // Fast fall
         if (rb.velocity.y < 0)
             rb.velocity += (fallMultiplier - 1) * Physics2D.gravity.y * Time.fixedDeltaTime * Vector2.up;
     }
+
+    #region Detectors
+
+    /// <summary>
+    /// Checks if the ground detector is in contact with non-vertical terrain.
+    /// </summary>
+    private bool CheckPlayerOnGround()
+    { 
+        Collider2D[] cldrs = Physics2D.OverlapCircleAll(groundCheck.position, groundRadius, isTerrain);
+
+        // Check steepness of colliders relative to player
+        if (cldrs.Length > 0)
+        {
+            return cldrs.Any(cldr => AdjustAngle(cldr.transform.eulerAngles.z) < 90);
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Checks if any wall detector is in contact horizontal terrain.
+    /// </summary>
+    private bool CheckPlayerOnWall()
+    {
+        foreach (Transform wallCheck in wallChecks)
+        {
+            Collider2D cldr = Physics2D.OverlapCircle(wallCheck.position, wallRadius, isTerrain);
+
+            if (cldr != null)
+            {
+                List<Collider2D> contacts = new List<Collider2D>();
+                cldr.GetContacts(contacts);
+
+                if (contacts.Count > 0)
+                {
+                    string s = "";
+                    for (int i = 0; i < contacts.Count; ++i)
+                        s += transform.position - contacts[0].transform.position + ", ";
+                }
+
+                // Check steepness of collider relative to player
+                if (AdjustAngle(cldr.transform.eulerAngles.z) > 0)
+                    return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /// <summary>
+    /// Fit angle to be with 180 to -180 degree range.
+    /// </summary>
+    private float AdjustAngle(float a)
+    {
+        if (a >= 270)
+        {
+            a = 360 - a;
+        }
+        return a;
+    }
+
+    #endregion
+
+    #region Movement
 
     private void Move()
     {
@@ -101,14 +165,20 @@ public class PlayerController : MonoBehaviour
         }
 
         // Prevent getting stuck on walls
-        if (dir == direction && onWall)
+        if (dir == direction && onWall && !onGround)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
         else
         {
             if (direction == -dir) FlipX();
-            rb.velocity = new Vector2(dir * moveSpeed, rb.velocity.y);
+
+            // Remove momentum when stopping on slants
+            float vY = rb.velocity.y;
+            if (dir == 0 && onGround && !attack.inProgress)
+                vY = 0;
+
+            rb.velocity = new Vector2(dir * moveSpeed, vY);
         }
     }
 
@@ -150,6 +220,8 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    #endregion
 
     // Flip the player horizontally.
     private void FlipX()
