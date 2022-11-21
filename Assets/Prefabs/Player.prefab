@@ -238,6 +238,7 @@ MonoBehaviour:
   attack: {fileID: 5862227676860318783}
   attackCost: 2.5
   boostSpeed: 300
+  stunTime: 0.25
   noMoveDuringBoost: 0
   upBoostOnly: 1
   oneTimeUseMidair: 1

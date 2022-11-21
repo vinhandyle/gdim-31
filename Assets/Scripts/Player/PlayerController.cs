@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BurstAttack attack;
     [SerializeField] private float attackCost;
     [SerializeField] private float boostSpeed;
+    [SerializeField] private float stunTime;
+    private bool stunned;
 
     [SerializeField] [Tooltip("Prevent horizontal movement during boost.")] 
     private bool noMoveDuringBoost;
@@ -64,7 +66,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Player control
-        if (!attack.inProgress)
+        if (!attack.inProgress && !stunned)
         {
             Move();
             Jump();
@@ -213,6 +215,26 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region External
+
+    /// <summary>
+    /// Knockback the player by the specified force.
+    /// Player is stunned during knockback to prevent momentum cancel.
+    /// </summary>
+    public IEnumerator Knockback(Vector2 kb)
+    {
+        stunned = true;
+        rb.AddForce(kb);        
+
+        yield return new WaitForSeconds(stunTime);
+
+        stunned = false;
+    }
+
+    #endregion
+
+    #region Helper
+
     // Flip the player horizontally.
     private void FlipX()
     {
@@ -220,5 +242,7 @@ public class PlayerController : MonoBehaviour
         oppDirection.x *= -1;
         transform.localScale = oppDirection;
         direction *= -1;
-    }   
+    }
+
+    #endregion
 }

@@ -16,12 +16,14 @@ public class HealthManager : MonoBehaviour
     private float baseDecaySpeed;
     [SerializeField] [Range(1, 100)] private int healthSegments = 1;
 
+    private Rigidbody2D rb;
     private float timeLeft;
     private float timePerHealth;
     private int dmgTaken;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         timeLeft = maxTime;
         timePerHealth = maxTime / healthSegments;
         baseDecaySpeed = decaySpeed;
@@ -87,11 +89,16 @@ public class HealthManager : MonoBehaviour
     /// </summary>
     public void Respawn()
     {
+        rb.bodyType = RigidbodyType2D.Static; // Remove pre-death knockback
+
         Checkpoint target = checkpoints[checkpoints.Count - 1];
         Vector3 dest = target.transform.position + (Vector3)target.GetComponent<BoxCollider2D>().offset;
         transform.position = new Vector3(dest.x, dest.y, transform.position.z);
 
+        rb.bodyType = RigidbodyType2D.Dynamic; // Allow movement after spawn
+
         timeLeft = maxTime;
+        dmgTaken = 0;
         healthBar.SetHealth(maxTime);
         healthBar.ResetDamagedHealth();
     }

@@ -14,6 +14,7 @@ public class DamagingObject : MonoBehaviour
     [SerializeField] private bool destroyOnHit;
     [SerializeField] private bool destroyOnBurst;
     [SerializeField] private bool canKnockback;
+    [SerializeField] private float knockbackAmt;
 
     private void Awake()
     {
@@ -34,6 +35,7 @@ public class DamagingObject : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            PlayerController player = other.GetComponent<PlayerController>();
             HealthManager health = other.GetComponent<HealthManager>();
 
             if (instantKill)
@@ -46,8 +48,9 @@ public class DamagingObject : MonoBehaviour
                 health.TakeDamage(damage);
 
                 if (canKnockback)
-                {
-                    // TODO
+                {                    
+                    Vector2 kb = (other.transform.position - transform.position) * knockbackAmt;
+                    StartCoroutine(player.Knockback(kb));
                 }
             }
         }
