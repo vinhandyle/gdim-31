@@ -42,10 +42,12 @@ GameObject:
   - component: {fileID: 5862227676726918592}
   - component: {fileID: 5862227676726918595}
   - component: {fileID: 5862227676726918594}
+  - component: {fileID: 7838648030382857693}
   - component: {fileID: 5862227676726918620}
   - component: {fileID: 484419360245985742}
   - component: {fileID: 5862227676726918593}
   - component: {fileID: 5862227676726918621}
+  - component: {fileID: 1110163103600479390}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -102,7 +104,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5862227676726918599}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -121,6 +123,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.385, y: 0.462}
   m_EdgeRadius: 0
+--- !u!70 &7838648030382857693
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5862227676726918599}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.27}
+  m_Size: {x: 0.385, y: 0.462}
+  m_Direction: 0
 --- !u!212 &5862227676726918620
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -211,7 +229,7 @@ MonoBehaviour:
   isTerrain:
     serializedVersion: 2
     m_Bits: 64
-  groundRadius: 0.18
+  groundRadius: 0.1925
   wallRadius: 0.1
   groundCheck: {fileID: 5862227676819029337}
   wallChecks:
@@ -221,6 +239,7 @@ MonoBehaviour:
   attack: {fileID: 5862227676860318783}
   attackCost: 2.5
   boostSpeed: 300
+  stunTime: 0.25
   noMoveDuringBoost: 0
   upBoostOnly: 1
   oneTimeUseMidair: 1
@@ -242,6 +261,18 @@ MonoBehaviour:
   maxTime: 100
   decaySpeed: 1
   healthSegments: 10
+--- !u!114 &1110163103600479390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5862227676726918599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e830d3d142441b940aceb9479f918be8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5862227676819029336
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ public class Checkpoint : InteractableObject
                 playerHealth.Respawn();
             }
             playerHealth.AddCheckpoint(this);
-            anim.SetBool("Enabled", true);
+            //anim.SetBool("Enabled", true);
             
         };
     }

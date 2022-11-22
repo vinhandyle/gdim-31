@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
-guid: ac9c2200984f601428357d0995db070a
-=======
-guid: e7c7a161150cd304cbb7f71c8b6a58cd
->>>>>>> e2dbfe060de0bd5afe48715b029052f721de2749
+guid: ba3b00e7032eabf46966c7a3b91b79b9
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -37,11 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-<<<<<<< HEAD
-    filterMode: 1
-=======
     filterMode: 0
->>>>>>> e2dbfe060de0bd5afe48715b029052f721de2749
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -52,11 +44,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-<<<<<<< HEAD
-  spriteMeshType: 1
-=======
   spriteMeshType: 0
->>>>>>> e2dbfe060de0bd5afe48715b029052f721de2749
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -113,153 +101,72 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-<<<<<<< HEAD
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  spriteSheet:
-    serializedVersion: 2
-    sprites: []
-=======
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Moth sprite_0
+      name: Rain seperate_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 167
-        width: 78
-        height: 67
+        x: 14
+        y: 8
+        width: 28
+        height: 46
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bdd053fab53962942b6e93addfbd0ca9
-      internalID: 1718864755
+      spriteID: b2f07951074806146a8355840a0fc1af
+      internalID: -89060399
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Moth sprite_1
+      name: Rain seperate_1
       rect:
         serializedVersion: 2
-        x: 150
-        y: 167
-        width: 78
-        height: 67
+        x: 78
+        y: 8
+        width: 28
+        height: 46
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e91d907b8836c8a4ea4c139408126f7b
-      internalID: 366773560
+      spriteID: 05351b47c3d8bdd41b20a23552aa3ae9
+      internalID: -250476404
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Moth sprite_2
+      name: Rain seperate_2
       rect:
         serializedVersion: 2
-        x: 279
-        y: 167
-        width: 78
-        height: 67
+        x: 142
+        y: 8
+        width: 28
+        height: 46
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55f9cdb95b5398b4f96737e07ce5bf02
-      internalID: 837682504
+      spriteID: 60f946a1f94ebc14a9ad74338f2c3b45
+      internalID: 1407212963
       vertices: []
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Moth sprite_3
-      rect:
-        serializedVersion: 2
-        x: 406
-        y: 167
-        width: 78
-        height: 67
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e45302301e8378c4cb8040f1f4ba6c73
-      internalID: -777248540
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Moth sprite_4
-      rect:
-        serializedVersion: 2
-        x: 19
-        y: 53
-        width: 89
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c350baeb163cf70478ab9dbdc3ba6c3c
-      internalID: -1476690166
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Moth sprite_5
-      rect:
-        serializedVersion: 2
-        x: 147
-        y: 53
-        width: 89
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7d10ac6f9e19ccf4a981ce35ba4db369
-      internalID: 2085016747
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
->>>>>>> e2dbfe060de0bd5afe48715b029052f721de2749
     outline: []
     physicsShape: []
     bones: []
@@ -270,17 +177,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-<<<<<<< HEAD
-    nameFileIdTable: {}
-=======
     nameFileIdTable:
-      Moth sprite_4: -1476690166
-      Moth sprite_2: 837682504
-      Moth sprite_5: 2085016747
-      Moth sprite_3: -777248540
-      Moth sprite_0: 1718864755
-      Moth sprite_1: 366773560
->>>>>>> e2dbfe060de0bd5afe48715b029052f721de2749
+      Rain seperate_2: 1407212963
+      Rain seperate_1: -250476404
+      Rain seperate_0: -89060399
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

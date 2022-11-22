@@ -13,8 +13,10 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private bool disableHealthDrain;
     [SerializeField] private float maxTime;
     [SerializeField] private float decaySpeed;
+    private float baseDecaySpeed;
     [SerializeField] [Range(1, 100)] private int healthSegments = 1;
 
+    private Rigidbody2D rb;
     private float timeLeft;
     private float timePerHealth;
     private int dmgTaken;
@@ -24,8 +26,10 @@ public class HealthManager : MonoBehaviour
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         timeLeft = maxTime;
         timePerHealth = maxTime / healthSegments;
+        baseDecaySpeed = decaySpeed;
         healthBar.SetDefaults(maxTime, healthSegments);
         anim = GetComponent<Animator>();
     }
@@ -40,8 +44,17 @@ public class HealthManager : MonoBehaviour
         }
         else
         {
-            Respawn();
+            //Respawn();
+            Die();
         }
+    }
+
+    /// <summary>
+    /// Set the health decay speed multiplier.
+    /// </summary>
+    public void ChangeDecaySpeed(float mult)
+    {
+        decaySpeed = baseDecaySpeed * mult;
     }
 
     /// <summary>
@@ -64,8 +77,9 @@ public class HealthManager : MonoBehaviour
         dmgTaken += amt;
         healthBar.SetDamagedHealth(dmgTaken);
         if (dmgTaken * timePerHealth >= timeLeft)
-            timeLeft = 0;
-            
+            {
+                timeLeft = 0;
+            }
     }
 
     /// <summary>
@@ -83,13 +97,25 @@ public class HealthManager : MonoBehaviour
     /// </summary>
     public void Respawn()
     {
+        rb.bodyType = RigidbodyType2D.Static; // Remove pre-death knockback
+
         Checkpoint target = checkpoints[checkpoints.Count - 1];
         Vector3 dest = target.transform.position + (Vector3)target.GetComponent<BoxCollider2D>().offset;
         transform.position = new Vector3(dest.x, dest.y, transform.position.z);
 
+        rb.bodyType = RigidbodyType2D.Dynamic; // Allow movement after spawn
+
         timeLeft = maxTime;
+        dmgTaken = 0;
         healthBar.SetHealth(maxTime);
         healthBar.ResetDamagedHealth();
+        anim.SetTrigger("onRespawn");
     }
+    public void Die()
+    {
+        Debug.Log(anim.parameters);
+        anim.SetTrigger("death");
+    }
+
 
 }

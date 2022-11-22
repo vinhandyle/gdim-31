@@ -8,7 +8,7 @@ public class PlayerLife : MonoBehaviour
     private Animator anim;
     
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         anim = GetComponent<Animator>();
     }
