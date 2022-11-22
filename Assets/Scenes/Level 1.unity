@@ -2450,7 +2450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   playerInRange: 0
-  nextLevel: Menu
+  nextLevel: Level 2
 --- !u!1 &991117942
 GameObject:
   m_ObjectHideFlags: 0
