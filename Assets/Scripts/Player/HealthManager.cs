@@ -35,18 +35,20 @@ public class HealthManager : MonoBehaviour
     }
 
     private void Update()
-    {
-        if (timeLeft > 0)
+    {        
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Player Idle"))
         {
-            if (!disableHealthDrain)
-                timeLeft -= Time.deltaTime * decaySpeed;
-            healthBar.SetHealth(timeLeft);
-        }
-        else
-        {
-            //Respawn();
-            Die();
-        }
+            if (timeLeft > 0)
+            {
+                if (!disableHealthDrain)
+                    timeLeft -= Time.deltaTime * decaySpeed;
+                healthBar.SetHealth(timeLeft);
+            }
+            else
+            {
+                Die("deathMelt");
+            }
+        }        
     }
 
     /// <summary>
@@ -63,8 +65,7 @@ public class HealthManager : MonoBehaviour
     public void ExpendFuel(float amt = -1)
     {
         if (amt < 0)
-            timeLeft = 0;
-            
+            timeLeft = 0;           
         timeLeft -= amt;
     }
 
@@ -77,9 +78,9 @@ public class HealthManager : MonoBehaviour
         dmgTaken += amt;
         healthBar.SetDamagedHealth(dmgTaken);
         if (dmgTaken * timePerHealth >= timeLeft)
-            {
-                timeLeft = 0;
-            }
+        {
+            Die("deathBreak");
+        }
     }
 
     /// <summary>
@@ -92,30 +93,46 @@ public class HealthManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Restricts player movement and begins one of three death animations.
+    /// </summary>
+    public void Die(string deathType = "deathExt")
+    {        
+        rb.bodyType = RigidbodyType2D.Static; // Prevent movement during death & respawn
+
+        // Melt is checked continuously so trigger is not good
+        if (deathType == "deathMelt")
+        {
+            anim.SetBool(deathType, true);
+        }
+        else
+        {
+            anim.SetTrigger(deathType);
+        }
+    }
+
+    /// <summary>
     /// Respawn the player at the most recently activated checkpoint.
     /// Modify logic to determine checkpoint?
     /// </summary>
     public void Respawn()
-    {
-        rb.bodyType = RigidbodyType2D.Static; // Remove pre-death knockback
-
+    {      
         Checkpoint target = checkpoints[checkpoints.Count - 1];
         Vector3 dest = target.transform.position + (Vector3)target.GetComponent<BoxCollider2D>().offset;
-        transform.position = new Vector3(dest.x, dest.y, transform.position.z);
+        transform.position = new Vector3(dest.x, dest.y, transform.position.z);        
+        anim.SetBool("deathMelt", false);
+        anim.SetTrigger("onRespawn");
+    }
 
-        rb.bodyType = RigidbodyType2D.Dynamic; // Allow movement after spawn
-
+    /// <summary>
+    /// Reset player health and unlock movement.
+    /// Call when respawn animation finishes.
+    /// </summary>
+    public void RespawnFinish()
+    {
         timeLeft = maxTime;
         dmgTaken = 0;
         healthBar.SetHealth(maxTime);
         healthBar.ResetDamagedHealth();
-        anim.SetTrigger("onRespawn");
+        rb.bodyType = RigidbodyType2D.Dynamic; // Return player control        
     }
-    public void Die()
-    {
-        Debug.Log(anim.parameters);
-        anim.SetTrigger("death");
-    }
-
-
 }

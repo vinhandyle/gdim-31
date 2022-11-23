@@ -21,8 +21,6 @@ public class DamagingObject : MonoBehaviour
         isTrigger = GetComponent<Collider2D>().isTrigger;
     }
 
-    private Animator anim;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isTrigger) OnContact(collision.gameObject);
@@ -42,9 +40,7 @@ public class DamagingObject : MonoBehaviour
 
             if (instantKill)
             {
-                // Change to have custom death animation
-                health.Die();
-                
+                health.Die();              
             }
             else
             {
