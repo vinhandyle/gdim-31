@@ -10,11 +10,10 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private BoxCollider2D cldr;
-    private SpriteRenderer sprite;
-    private HealthManager health;    
+    private HealthManager health;
 
     [Header("Movement")]
+    [SerializeField] private GameObject cam;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpHeight;
     [SerializeField] private float fallMultiplier;
@@ -27,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private List<Transform> wallChecks;
+    [SerializeField] private bool tiltWithGround;
+    [SerializeField] private float maxGroundTilt;
     private bool onGround;
     private bool onWall;
 
@@ -50,8 +51,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        cldr = GetComponent<BoxCollider2D>();
-        sprite = GetComponent<SpriteRenderer>();
         health = GetComponent<HealthManager>();
 
         direction = (int)transform.right.x;
@@ -59,6 +58,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        UpdateCamera();
+
         // Hot key for pause menu
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -95,16 +96,37 @@ public class PlayerController : MonoBehaviour
     /// Checks if the ground detector is in contact with non-vertical terrain.
     /// </summary>
     private bool CheckPlayerOnGround()
-    { 
+    {
         Collider2D[] cldrs = Physics2D.OverlapCircleAll(groundCheck.position, groundRadius, isTerrain);
+        List<float> angles = new List<float>();
 
         // Check steepness of colliders relative to player
         if (cldrs.Length > 0)
         {
-            return cldrs.Any(cldr => AdjustAngle(cldr.transform.eulerAngles.z) < 90);
+            foreach (Collider2D cldr in cldrs)
+            {
+                angles.Add(AdjustAngle(cldr.transform.eulerAngles.z));
+            }
         }
 
-        return false;
+        angles = angles.Where(a => Mathf.Abs(a) < maxGroundTilt).ToList();
+
+        // Update player tilt based on # of terrain colliders in contact
+        if (tiltWithGround)
+        {
+            switch (angles.Count())
+            {
+                case 0:
+                    transform.eulerAngles = Vector3.zero;
+                    break;
+
+                case 1:
+                    transform.eulerAngles = new Vector3(0, 0, angles[0]);
+                    break;
+            }
+        }
+
+        return angles.Count() > 0;
     }
 
     /// <summary>
@@ -119,7 +141,7 @@ public class PlayerController : MonoBehaviour
             if (cldr != null)
             {
                 // Check steepness of collider relative to player
-                if (AdjustAngle(cldr.transform.eulerAngles.z) > 0)
+                if (Mathf.Abs(AdjustAngle(cldr.transform.eulerAngles.z)) > 0)
                     return true;
             }
         }
@@ -134,7 +156,7 @@ public class PlayerController : MonoBehaviour
     {
         if (a >= 270)
         {
-            a = 360 - a;
+            a -= 360;
         }
         return a;
     }
@@ -170,7 +192,25 @@ public class PlayerController : MonoBehaviour
             if (dir == 0 && onGround && !attack.inProgress)
                 vY = 0;
 
-            rb.velocity = new Vector2(dir * moveSpeed, vY);
+            if (tiltWithGround)
+            {
+                // Special calc to move across slant
+                float dX = transform.right.x;
+                float dY = transform.right.y;
+                float rot = transform.eulerAngles.z;
+
+                // Flip vector if going down slant
+                if (rot * dir < 0) dY *= -1;
+
+                if (onGround)
+                    rb.velocity = new Vector2(dir * dX, Mathf.Abs(dir) * dY) * moveSpeed;
+                else
+                    rb.velocity = new Vector2(dir * moveSpeed, vY);
+            }
+            else
+            {
+                rb.velocity = new Vector2(dir * moveSpeed, vY);
+            }            
         }
     }
 
@@ -235,13 +275,27 @@ public class PlayerController : MonoBehaviour
 
     #region Helper
 
-    // Flip the player horizontally.
+    /// <summary>
+    /// Flip the player horizontally.
+    /// </summary>
     private void FlipX()
     {
         Vector3 oppDirection = transform.localScale;
         oppDirection.x *= -1;
         transform.localScale = oppDirection;
         direction *= -1;
+    }
+
+    /// <summary>
+    /// Lock the camera onto the player.
+    /// </summary>
+    private void UpdateCamera()
+    {
+        cam.transform.position = new Vector3(
+                transform.position.x,
+                transform.position.y,
+                cam.transform.position.z
+            );
     }
 
     #endregion

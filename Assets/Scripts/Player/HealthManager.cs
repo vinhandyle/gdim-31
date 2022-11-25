@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class HealthManager : MonoBehaviour
 {
+    [SerializeField] private Animator anim;
     [SerializeField] private HealthBar healthBar;
     [SerializeField] private List<Checkpoint> checkpoints = new List<Checkpoint>();
 
@@ -21,9 +22,6 @@ public class HealthManager : MonoBehaviour
     private float timePerHealth;
     private int dmgTaken;
 
-
-    private Animator anim;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -31,7 +29,6 @@ public class HealthManager : MonoBehaviour
         timePerHealth = maxTime / healthSegments;
         baseDecaySpeed = decaySpeed;
         healthBar.SetDefaults(maxTime, healthSegments);
-        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -89,7 +86,8 @@ public class HealthManager : MonoBehaviour
     /// </summary>
     public void AddCheckpoint(Checkpoint checkpoint)
     {
-        checkpoints.Add(checkpoint);
+        if (!checkpoints.Contains(checkpoint))
+            checkpoints.Add(checkpoint);
     }
 
     /// <summary>

@@ -14,7 +14,7 @@ public class MenuButton : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        SceneController.Instance.LoadScene("Level 1");
+        SceneController.Instance.LoadScene("Level 1E");
     }
 
     /// <summary>

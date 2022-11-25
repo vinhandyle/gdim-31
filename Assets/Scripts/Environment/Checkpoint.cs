@@ -38,7 +38,7 @@ public class Checkpoint : InteractableObject
            
             if (active)
             {
-                playerHealth.Respawn();
+                playerHealth.Die("deathMelt");
             }
             playerHealth.AddCheckpoint(this);
             anim.SetBool("Enabled", true);           
