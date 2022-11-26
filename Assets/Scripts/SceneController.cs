@@ -12,21 +12,14 @@ public class SceneController : Singleton<SceneController>
     private const string menuScene = "Menu";
     private const string pauseMenu = "Pause";
 
-    [SerializeField] private bool autoLoadGame;
-
-    private void Start()
+    /// <summary>
+    /// Boot up the main menu.
+    /// </summary>
+    public void LoadMainMenu()
     {
-        if (autoLoadGame)
-        {
-            LoadScene(menuScene);
-            GameStateManager.Instance.UpdateState(GameStateManager.GameState.PREGAME);
-        }
-        else
-        {
-            GameStateManager.Instance.UpdateState(GameStateManager.GameState.PREGAME);
-        }
+        LoadScene(menuScene);
+        GameStateManager.Instance.UpdateState(GameStateManager.GameState.PREGAME);
     }
-
 
     /// <summary>
     /// Loads the scene with the given name.

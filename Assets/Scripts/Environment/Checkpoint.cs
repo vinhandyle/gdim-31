@@ -12,6 +12,9 @@ public class Checkpoint : InteractableObject
     public bool active { get => anim.GetBool("Enabled"); }
     [SerializeField] private bool preset;
 
+    public int checkpointID { get => _checkpointID; }
+    [SerializeField] private int _checkpointID;
+
     protected override void Awake()
     {
         base.Awake();
@@ -24,9 +27,8 @@ public class Checkpoint : InteractableObject
             if (preset)
             {
                 HealthManager playerHealth = player.GetComponent<HealthManager>();
-
-                anim.SetBool("Enabled", true);
-                playerHealth.AddCheckpoint(this);
+                playerHealth.SetCheckpoint(checkpointID);
+                Activate();
             }
         };
 
@@ -34,14 +36,47 @@ public class Checkpoint : InteractableObject
         // Full heal on subsequent interactions
         OnInteract += (player) => 
         {
-            HealthManager playerHealth = player.GetComponent<HealthManager>();
-           
+            HealthManager playerHealth = player.GetComponent<HealthManager>();                        
+            playerHealth.SetCheckpoint(checkpointID);
+
             if (active)
             {
                 playerHealth.Die("deathMelt");
             }
-            playerHealth.AddCheckpoint(this);
-            anim.SetBool("Enabled", true);           
+            Activate();
         };
+    }
+
+    /// <summary>
+    /// Find and return the checkpoint with the specified id in the current scene.
+    /// Return null if the checkpoint cannot be found.
+    /// </summary>
+    public static Checkpoint Find(int id)
+    {
+        foreach (Checkpoint checkpoint in FindObjectsOfType<Checkpoint>())
+        {
+            if (checkpoint.checkpointID == id) return checkpoint;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Reactivate all checkpoints in the scene that were activated by the
+    /// player during this playthrough.
+    /// </summary>
+    public static void ReactivateAll(List<int> ids)
+    {
+        foreach (Checkpoint checkpoint in FindObjectsOfType<Checkpoint>())
+        {
+            if (ids.Contains(checkpoint.checkpointID)) checkpoint.Activate(); 
+        }
+    }
+
+    /// <summary>
+    /// Change the checkpoint's animation to the Enabled state.
+    /// </summary>
+    private void Activate()
+    {
+        anim.SetBool("Enabled", true);
     }
 }

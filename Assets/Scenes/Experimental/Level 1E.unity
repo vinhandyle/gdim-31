@@ -1634,6 +1634,7 @@ MonoBehaviour:
   player: {fileID: 0}
   playerInRange: 0
   nextLevel: Level 2
+  nextPos: {x: 33.68, y: 6.065999}
 --- !u!61 &618954187
 BoxCollider2D:
   m_ObjectHideFlags: 0

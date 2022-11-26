@@ -8,6 +8,7 @@ using UnityEngine;
 public class LevelConnector : InteractableObject
 {
     [SerializeField] private string nextLevel;
+    [SerializeField] private Vector2 nextPos;
 
     protected override void Awake()
     {
@@ -15,7 +16,8 @@ public class LevelConnector : InteractableObject
 
         OnInteract += (player) =>
         {
-            SceneController.Instance.LoadScene(nextLevel);
+            SaveManager.Instance.SavePlayerInfo(SceneController.Instance.currentScene);
+            SaveManager.Instance.LoadLevel(nextLevel, nextPos);
         };
     }
 }

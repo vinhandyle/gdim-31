@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Test.unity
     guid: feb0be625d6ee8048a72d098938880d5
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Experimental/Level 1E.unity
     guid: d4be083fa179b38479ff2a7d91a88543
   - enabled: 1

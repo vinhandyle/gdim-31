@@ -2249,7 +2249,7 @@ GameObject:
   - component: {fileID: 1289778460}
   - component: {fileID: 1289778459}
   m_Layer: 0
-  m_Name: WIndow (1)
+  m_Name: End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2285,6 +2285,7 @@ MonoBehaviour:
   player: {fileID: 1353736254}
   playerInRange: 0
   nextLevel: Menu
+  nextPos: {x: 15.369, y: -4.334001}
 --- !u!61 &1289778460
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2823,7 +2824,7 @@ GameObject:
   - component: {fileID: 1754126874}
   - component: {fileID: 1754126873}
   m_Layer: 0
-  m_Name: WIndow (1)
+  m_Name: Crack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2859,6 +2860,7 @@ MonoBehaviour:
   player: {fileID: 1353736254}
   playerInRange: 0
   nextLevel: Level 2
+  nextPos: {x: 15.369, y: 6.065999}
 --- !u!61 &1754126874
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3196,7 +3198,7 @@ GameObject:
   - component: {fileID: 1929267567}
   - component: {fileID: 1929267566}
   m_Layer: 0
-  m_Name: WIndow
+  m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3727,7 +3729,7 @@ GameObject:
   - component: {fileID: 2007380670}
   - component: {fileID: 2007380669}
   m_Layer: 0
-  m_Name: WIndow
+  m_Name: Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

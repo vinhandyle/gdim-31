@@ -53,7 +53,15 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         health = GetComponent<HealthManager>();
 
-        direction = (int)transform.right.x;
+        // Load saved position
+        transform.position = new Vector3(
+            SaveManager.Instance.playerData.posX, 
+            SaveManager.Instance.playerData.posY, 
+            transform.position.z)
+            ;
+
+        direction = (int)transform.right.x;        
+        SaveManager.Instance.player = this;
     }
 
     private void Update()
@@ -202,7 +210,7 @@ public class PlayerController : MonoBehaviour
                 // Flip vector if going down slant
                 if (rot * dir < 0) dY *= -1;
 
-                if (onGround)
+                if (onGround && !attack.inProgress)
                     rb.velocity = new Vector2(dir * dX, Mathf.Abs(dir) * dY) * moveSpeed;
                 else
                     rb.velocity = new Vector2(dir * moveSpeed, vY);

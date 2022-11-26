@@ -9,7 +9,7 @@ public class HealthManager : MonoBehaviour
 {
     [SerializeField] private Animator anim;
     [SerializeField] private HealthBar healthBar;
-    [SerializeField] private List<Checkpoint> checkpoints = new List<Checkpoint>();
+    public int respawnPoint { get; private set; }
 
     [SerializeField] private bool disableHealthDrain;
     [SerializeField] private float maxTime;
@@ -18,9 +18,9 @@ public class HealthManager : MonoBehaviour
     [SerializeField] [Range(1, 100)] private int healthSegments = 1;
 
     private Rigidbody2D rb;
-    private float timeLeft;
+    public float timeLeft { get; private set; }
     private float timePerHealth;
-    private int dmgTaken;
+    public int dmgTaken { get; private set; }
 
     private void Awake()
     {
@@ -46,6 +46,17 @@ public class HealthManager : MonoBehaviour
                 Die("deathMelt");
             }
         }        
+    }
+
+    /// <summary>
+    /// Set the current time left and damage taken.
+    /// </summary>
+    public void SetHealthBar(float timeLeft, int dmgTaken)
+    {
+        this.timeLeft = timeLeft;
+        this.dmgTaken = dmgTaken;
+        healthBar.SetDamagedHealth(dmgTaken);
+        healthBar.SetHealth(timeLeft);
     }
 
     /// <summary>
@@ -81,13 +92,12 @@ public class HealthManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Add the given checkpoint to the list of ones
-    /// available for respawn.
+    /// Set the player's respawn point to the specified checkpoint.
     /// </summary>
-    public void AddCheckpoint(Checkpoint checkpoint)
+    public void SetCheckpoint(int id)
     {
-        if (!checkpoints.Contains(checkpoint))
-            checkpoints.Add(checkpoint);
+        respawnPoint = id;
+        SaveManager.Instance.SaveCheckpoint(id);
     }
 
     /// <summary>
@@ -109,12 +119,17 @@ public class HealthManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Respawn the player at the most recently activated checkpoint.
-    /// Modify logic to determine checkpoint?
+    /// Respawn the player at the most recently used checkpoint.
     /// </summary>
     public void Respawn()
-    {      
-        Checkpoint target = checkpoints[checkpoints.Count - 1];
+    {
+        // If last checkpoint is in different scene
+        if (SaveManager.Instance.LoadRespawn(respawnPoint)) return;
+
+        // If last checkpoint is in same scene
+        rb.bodyType = RigidbodyType2D.Static; // Prevent movement during cross-scene respawn
+
+        Checkpoint target = Checkpoint.Find(respawnPoint);
         Vector3 dest = target.transform.position + (Vector3)target.GetComponent<BoxCollider2D>().offset;
         transform.position = new Vector3(dest.x, dest.y, transform.position.z);        
         anim.SetBool("deathMelt", false);
