@@ -16,7 +16,7 @@ public class ObjectGenerator : MonoBehaviour
 
     private void Awake()
     {
-        timeLeft = Random.Range(minGenTime, maxGenTime);
+        timeLeft = 0;
     }
 
     private void Update()

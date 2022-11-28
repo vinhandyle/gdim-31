@@ -7,7 +7,10 @@ using UnityEngine;
 /// </summary>
 public class DamagingObject : MonoBehaviour
 {
-    private bool isTrigger;
+    private Animator anim;
+    private Collider2D cldr;
+    private Rigidbody2D rb;
+    private MovingObject mvObj;
 
     [SerializeField] private int damage;
     [SerializeField] private bool instantKill;
@@ -18,21 +21,25 @@ public class DamagingObject : MonoBehaviour
 
     private void Awake()
     {
-        isTrigger = GetComponent<Collider2D>().isTrigger;
+        anim = GetComponent<Animator>();
+        cldr = GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
+        mvObj = GetComponent<MovingObject>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isTrigger) OnContact(collision.gameObject);
+        if (cldr.isTrigger) OnContact(collision.gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!isTrigger) OnContact(collision.gameObject);
+        if (!cldr.isTrigger) OnContact(collision.gameObject);
     }
 
     private void OnContact(GameObject other)
     {
+        // Damage player
         if (other.CompareTag("Player"))
         {
             PlayerController player = other.GetComponent<PlayerController>();
@@ -54,10 +61,29 @@ public class DamagingObject : MonoBehaviour
             }
         }
 
+        // Destroy object if appropriate
         bool hitByBurst = other.GetComponent<BurstAttack>();
         if ((!hitByBurst && destroyOnHit) || (hitByBurst && destroyOnBurst))
         {
-            Destroy(gameObject);
+            if (mvObj != null) mvObj.enabled = false;
+
+            cldr.enabled = false;
+            rb.gravityScale = 0;
+            rb.velocity = Vector2.zero;
+
+            // Play collision animation
+            if (anim == null)
+                Destroy(gameObject);
+            else
+                anim.SetTrigger("OnDestroy");
         }
+    }
+
+    /// <summary>
+    /// Call to destroy object after collision animation finishes.
+    /// </summary>
+    private void DestroyObject()
+    {
+        Destroy(gameObject);
     }
 }
