@@ -20,6 +20,8 @@ public class Checkpoint : InteractableObject
         base.Awake();
 
         anim = GetComponent<Animator>();
+        intTexts.Add("Press [W] to light");
+        intTexts.Add("Press [W] to refuel");
 
         // Add preset checkpoints
         OnEnterRange += (player) =>
@@ -78,5 +80,6 @@ public class Checkpoint : InteractableObject
     private void Activate()
     {
         anim.SetBool("Enabled", true);
+        intTextInd = 1;
     }
 }

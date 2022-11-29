@@ -14,6 +14,9 @@ public class LevelConnector : InteractableObject
     {
         base.Awake();
 
+        intTexts.Add("Press [W] to enter");
+        intTexts.Add("Press [W] to light");
+
         OnInteract += (player) =>
         {
             SaveManager.Instance.SavePlayerInfo(SceneController.Instance.currentScene);
