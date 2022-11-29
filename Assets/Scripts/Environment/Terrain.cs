@@ -45,9 +45,14 @@ public class Terrain : MonoBehaviour
         // Set size to match corresponding side of the original
         float len = (angle % 180 == 0) ? box.size.x : box.size.y;
 
+        float invScaleX = Mathf.Abs(cldr.transform.localScale.x);
+        float invScaleY = Mathf.Abs(cldr.transform.localScale.y);
+        if (invScaleX > 1) invScaleX = 1;
+        if (invScaleY > 1) invScaleY = 1;
+
         cldr.size = new Vector2(
-            len / Mathf.Abs(cldr.transform.localScale.x), 
-            0.003f / Mathf.Abs(cldr.transform.localScale.y)
+            len / invScaleX, 
+            0.003f / invScaleY
             );
 
         // Rotate to align with original

@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -44,7 +44,7 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -108,10 +108,10 @@ TextureImporter:
       name: Platform no mold
       rect:
         serializedVersion: 2
-        x: 35
-        y: 98
-        width: 194
-        height: 25
+        x: 40
+        y: 100
+        width: 184
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,13 +129,13 @@ TextureImporter:
       name: single platform
       rect:
         serializedVersion: 2
-        x: 32
-        y: 139
-        width: 68
-        height: 40
+        x: 40
+        y: 144
+        width: 52
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 5, y: 3, z: 6, w: 13}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -150,10 +150,10 @@ TextureImporter:
       name: platform with mold
       rect:
         serializedVersion: 2
-        x: 38
-        y: 59
-        width: 188
-        height: 24
+        x: 40
+        y: 60
+        width: 184
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -54,8 +54,9 @@ public class MenuButton : MonoBehaviour
                 break;
             }
         }
-       
-        SceneController.Instance.UnloadScene("Pause");
+        
+        if (GameStateManager.Instance.currentState == GameStateManager.GameState.PAUSED)
+            SceneController.Instance.UnloadScene("Pause");
         SceneController.Instance.LoadScene("Menu");
     }
 

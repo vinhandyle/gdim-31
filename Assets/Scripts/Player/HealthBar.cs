@@ -58,6 +58,9 @@ public class HealthBar : MonoBehaviour
     /// </summary>
     public void SetDamagedHealth(int dmg)
     {
+        // Damage cannot exceed # of segments
+        if (dmg > segments.Count) dmg = segments.Count;
+
         for (int i = 0; i < dmg; ++i)
             segments[i].sprite = brokenSegment;
     }

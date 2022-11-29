@@ -12,6 +12,10 @@ public class DamagingObject : MonoBehaviour
     private Rigidbody2D rb;
     private MovingObject mvObj;
 
+    private HealthManager health;
+    private bool applyFriction;
+    private float frictionTime;
+
     [SerializeField] private int damage;
     [SerializeField] private bool instantKill;
     [SerializeField] private bool destroyOnHit;
@@ -25,6 +29,38 @@ public class DamagingObject : MonoBehaviour
         cldr = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         mvObj = GetComponent<MovingObject>();
+
+        frictionTime = 0.5f;
+    }
+
+    private void Update()
+    {
+        if (health != null)
+        {
+            // Deal damage on initial move
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+            {
+                health.TakeDamage(1);
+                applyFriction = true;
+            }
+
+            // Deal damage every half second while moving
+            if (applyFriction)
+            {
+                frictionTime -= Time.deltaTime;
+                if (frictionTime <= 0)
+                {
+                    health.TakeDamage(1);
+                    frictionTime = 0.5f;
+                }
+            }
+
+            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+            {
+                applyFriction = false;
+            }
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -37,13 +73,26 @@ public class DamagingObject : MonoBehaviour
         if (!cldr.isTrigger) OnContact(collision.gameObject);
     }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            health = null;
+            applyFriction = false;
+            frictionTime = 0.5f;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
     private void OnContact(GameObject other)
     {
         // Damage player
         if (other.CompareTag("Player"))
         {
             PlayerController player = other.GetComponent<PlayerController>();
-            HealthManager health = other.GetComponent<HealthManager>();
+            health = other.GetComponent<HealthManager>();
 
             if (instantKill)
             {
