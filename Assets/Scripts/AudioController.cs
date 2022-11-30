@@ -11,7 +11,8 @@ public class AudioController : Singleton<AudioController>
 {
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private AudioSource musicSource;
-    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioSource playerSfxSource;
+    [SerializeField] private AudioSource envSfxSource;
     [SerializeField] private List<AudioClip> playlist;
     [SerializeField] private List<AudioClip> sfxList;
 
@@ -49,12 +50,18 @@ public class AudioController : Singleton<AudioController>
     /// </summary>
     public void PlayEffect(int effectNum, bool loop = false)
     {
-        sfxSource.clip = sfxList[effectNum];
-        sfxSource.loop = loop;
-        if (!sfxSource.isPlaying)
-        {
-            sfxSource.Stop();
-            sfxSource.Play();
-        }
+        // Update value to match # of player SFX
+        if (effectNum < 4)
+            PlayEffect(playerSfxSource, sfxList[effectNum], loop);
+        else
+            PlayEffect(envSfxSource, sfxList[effectNum], loop);
+    }
+
+    private void PlayEffect(AudioSource src, AudioClip clip, bool loop)
+    {
+        src.clip = clip;
+        src.loop = loop;
+        src.Stop();
+        src.Play();
     }
 }

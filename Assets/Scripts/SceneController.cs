@@ -11,6 +11,7 @@ public class SceneController : Singleton<SceneController>
     public string currentScene { get; private set; }
     private const string menuScene = "Menu";
     private const string pauseMenu = "Pause";
+    private const string endMenu = "Ending";
 
     /// <summary>
     /// Boot up the main menu.
@@ -43,7 +44,20 @@ public class SceneController : Singleton<SceneController>
                 break;
 
             case "Level 1":
+            case "Level 1E":
                 AudioController.Instance.PlayTrack(1);
+                break;
+
+            case "Level 2":
+                AudioController.Instance.PlayTrack(2);
+                break;
+
+            case "Level 3":
+                AudioController.Instance.PlayTrack(3);
+                break;
+
+            case endMenu:
+                AudioController.Instance.PlayTrack(4);
                 break;
         }
     }

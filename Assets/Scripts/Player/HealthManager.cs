@@ -18,8 +18,11 @@ public class HealthManager : MonoBehaviour
     [SerializeField] [Range(1, 100)] private int healthSegments = 1;
 
     private Rigidbody2D rb;
-    public float timeLeft { get; private set; }
+    public bool alive { get => rb.bodyType == RigidbodyType2D.Dynamic; }
+
     private float timePerHealth;
+    public float timeLeft { get; private set; }
+
     public int dmgTaken { get; private set; }
 
     private void Awake()
@@ -32,7 +35,7 @@ public class HealthManager : MonoBehaviour
     }
 
     private void Update()
-    {        
+    {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Player Idle"))
         {
             if (timeLeft > 0)
@@ -45,7 +48,7 @@ public class HealthManager : MonoBehaviour
             {
                 Die("deathMelt");
             }
-        }        
+        }
     }
 
     /// <summary>
@@ -73,7 +76,7 @@ public class HealthManager : MonoBehaviour
     public void ExpendFuel(float amt = -1)
     {
         if (amt < 0)
-            timeLeft = 0;           
+            timeLeft = 0;
         timeLeft -= amt;
     }
 
@@ -85,6 +88,8 @@ public class HealthManager : MonoBehaviour
     {
         dmgTaken += amt;
         healthBar.SetDamagedHealth(dmgTaken);
+        AudioController.Instance.PlayEffect(1);
+
         if (dmgTaken * timePerHealth >= timeLeft)
         {
             Die("deathBreak");
@@ -104,8 +109,9 @@ public class HealthManager : MonoBehaviour
     /// Restricts player movement and begins one of three death animations.
     /// </summary>
     public void Die(string deathType = "deathExt")
-    {        
+    {
         rb.bodyType = RigidbodyType2D.Static; // Prevent movement during death & respawn
+        PlayDeathSound(deathType);
 
         // Melt is checked continuously so trigger is not good
         if (deathType == "deathMelt")
@@ -115,6 +121,27 @@ public class HealthManager : MonoBehaviour
         else
         {
             anim.SetTrigger(deathType);
+        }
+    }
+
+    /// <summary>
+    /// Play a sound effect based on death type.
+    /// </summary>
+    private void PlayDeathSound(string deathType)
+    {
+        switch (deathType)
+        {
+            case "deathExt":
+                AudioController.Instance.PlayEffect(3);
+                break;
+
+            case "deathMelt":
+                AudioController.Instance.PlayEffect(3);
+                break;
+
+            case "deathBreak":
+                AudioController.Instance.PlayEffect(2);
+                break;
         }
     }
 
@@ -134,6 +161,7 @@ public class HealthManager : MonoBehaviour
         transform.position = new Vector3(dest.x, dest.y, transform.position.z);        
         anim.SetBool("deathMelt", false);
         anim.SetTrigger("onRespawn");
+        AudioController.Instance.PlayEffect(5);
     }
 
     /// <summary>

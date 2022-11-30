@@ -45,7 +45,11 @@ public class Checkpoint : InteractableObject
             {
                 playerHealth.Die("deathMelt");
             }
-            Activate();
+            else
+            {
+                Activate();
+                AudioController.Instance.PlayEffect(4);
+            }           
         };
     }
 

@@ -27,6 +27,7 @@ public class BurstAttack : MonoBehaviour
     public void Activate()
     {
         anim.SetBool("Active", true);
+        AudioController.Instance.PlayEffect(0);
     }
 
     /// <summary>

@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Player control
-        if (!attack.inProgress && !stunned)
+        if (!attack.inProgress && !stunned && health.alive)
         {
             Move();
             Jump();

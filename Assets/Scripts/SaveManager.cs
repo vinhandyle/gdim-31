@@ -146,8 +146,16 @@ public class SaveManager : Singleton<SaveManager>
     private void SaveGameToDisk()
     {
         // Do this in case the player force closes the application
+        if (GameStateManager.Instance.currentState == GameStateManager.GameState.PAUSED)
+            GameStateManager.Instance.TogglePause();
+
         if (GameStateManager.Instance.currentState == GameStateManager.GameState.RUNNING)
             SavePlayerInfo(SceneController.Instance.currentScene);
+        
+        // Save audio settings last
+        playerData.masterVolume = AudioController.Instance.GetVolume("Master");
+        playerData.musicVolume = AudioController.Instance.GetVolume("Music");
+        playerData.sfxVolume = AudioController.Instance.GetVolume("SFX");
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
@@ -161,6 +169,7 @@ public class SaveManager : Singleton<SaveManager>
     /// </summary>
     private void LoadGameFromDisk()
     {
+        // Open previous save
         if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
         {
             BinaryFormatter bf = new BinaryFormatter();
@@ -171,13 +180,24 @@ public class SaveManager : Singleton<SaveManager>
                 playerData = (PlayerData)bf.Deserialize(file);
             }
             catch (Exception ex)
-            {
-                playerData = new PlayerData();
+            {               
                 Debug.Log(ex);
             }
-
-            file.Close();
+            file.Close();            
         }
+        // Create new save if one does not already exist
+        else if (playerData == null)
+        {
+            playerData = new PlayerData();
+
+            playerData.masterVolume = AudioController.Instance.GetVolume("Master");
+            playerData.musicVolume = AudioController.Instance.GetVolume("Music");
+            playerData.sfxVolume = AudioController.Instance.GetVolume("SFX");
+        }
+
+        AudioController.Instance.ChangeVolume("Master", playerData.masterVolume);
+        AudioController.Instance.ChangeVolume("Music", playerData.musicVolume);
+        AudioController.Instance.ChangeVolume("SFX", playerData.sfxVolume);
     }
 
     #endregion
@@ -201,4 +221,8 @@ public class PlayerData
 
     public Dictionary<int, string> activeCheckpoints = new Dictionary<int, string>();
     public int lastCheckpoint;
+
+    public float masterVolume;
+    public float musicVolume;
+    public float sfxVolume;
 }

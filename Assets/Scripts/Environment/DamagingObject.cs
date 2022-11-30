@@ -15,6 +15,7 @@ public class DamagingObject : MonoBehaviour
     private HealthManager health;
     private bool applyFriction;
     private float frictionTime;
+    private float frictionTimeMax = 0.5f;
 
     [SerializeField] private int damage;
     [SerializeField] private bool instantKill;
@@ -30,18 +31,19 @@ public class DamagingObject : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         mvObj = GetComponent<MovingObject>();
 
-        frictionTime = 0.5f;
+        frictionTime = frictionTimeMax;
     }
 
     private void Update()
     {
-        if (health != null)
+        if (health != null && health.alive)
         {
+            applyFriction = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D);
+
             // Deal damage on initial move
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
             {
                 health.TakeDamage(1);
-                applyFriction = true;
             }
 
             // Deal damage every half second while moving
@@ -51,16 +53,13 @@ public class DamagingObject : MonoBehaviour
                 if (frictionTime <= 0)
                 {
                     health.TakeDamage(1);
-                    frictionTime = 0.5f;
+                    frictionTime = frictionTimeMax;
                 }
             }
 
-            if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-            {
-                applyFriction = false;
-            }
+            // Reset friction when stop moving
+            if (!applyFriction) frictionTime = frictionTimeMax;
         }
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -79,7 +78,7 @@ public class DamagingObject : MonoBehaviour
         {
             health = null;
             applyFriction = false;
-            frictionTime = 0.5f;
+            frictionTime = frictionTimeMax;
         }
     }
 
@@ -96,7 +95,7 @@ public class DamagingObject : MonoBehaviour
 
             if (instantKill)
             {
-                health.Die();              
+                health.Die();
             }
             else
             {
