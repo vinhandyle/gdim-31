@@ -203,8 +203,8 @@ MonoBehaviour:
   playerSfxSource: {fileID: 478819693}
   envSfxSource: {fileID: 478819696}
   playlist:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 85ef9db450644e34e80bc1b66e7439e6, type: 3}
+  - {fileID: 8300000, guid: ec0a6c756521cf44ebc1a15bcbfb8787, type: 3}
   - {fileID: 8300000, guid: 18dc4999714a67b42aa9fe6e93e2fe43, type: 3}
   - {fileID: 8300000, guid: f1dc11cf47279014b823baefa0440614, type: 3}
   - {fileID: 0}
