@@ -11,7 +11,7 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private HealthBar healthBar;
     public int respawnPoint { get; private set; }
 
-    [SerializeField] private bool disableHealthDrain;
+    public bool disableHealthDrain;
     [SerializeField] private float maxTime;
     [SerializeField] private float decaySpeed;
     private float baseDecaySpeed;
@@ -75,9 +75,12 @@ public class HealthManager : MonoBehaviour
     /// </summary>
     public void ExpendFuel(float amt = -1)
     {
-        if (amt < 0)
-            timeLeft = 0;
-        timeLeft -= amt;
+        if (!disableHealthDrain)
+        {
+            if (amt < 0)
+                timeLeft = 0;
+            timeLeft -= amt;
+        }      
     }
 
     /// <summary>

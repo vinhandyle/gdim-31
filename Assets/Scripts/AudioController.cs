@@ -64,4 +64,13 @@ public class AudioController : Singleton<AudioController>
         src.Stop();
         src.Play();
     }
+
+    /// <summary>
+    /// Stop all currently playing sfx's.
+    /// </summary>
+    public void ClearEffects()
+    {
+        playerSfxSource.Stop();
+        envSfxSource.Stop();
+    }
 }

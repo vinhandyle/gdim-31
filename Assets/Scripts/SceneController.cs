@@ -37,6 +37,8 @@ public class SceneController : Singleton<SceneController>
             GameStateManager.Instance.UpdateState(GameStateManager.GameState.RUNNING);
 
         // Play music
+        AudioController.Instance.ClearEffects();
+
         switch (scene)
         {
             case menuScene:
