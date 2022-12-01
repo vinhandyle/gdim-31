@@ -1386,7 +1386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &409052158
 Transform:
   m_ObjectHideFlags: 0
@@ -1575,6 +1575,7 @@ MonoBehaviour:
   intTextInd: 0
   nextLevel: Level 2
   nextPos: {x: 33.68, y: 5.558}
+  delayForAnimation: 0
 --- !u!61 &618954187
 BoxCollider2D:
   m_ObjectHideFlags: 0
